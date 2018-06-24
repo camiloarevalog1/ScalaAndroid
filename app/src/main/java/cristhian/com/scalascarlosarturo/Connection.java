@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Connection {
 
-    private static final String BASE_URL = "your url web api";
+    private static final String BASE_URL = "https://scalas.webcindario.com/";
 
     private static Retrofit retrofit = null;
 

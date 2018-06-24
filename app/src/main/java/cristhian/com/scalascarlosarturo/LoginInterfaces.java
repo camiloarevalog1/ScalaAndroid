@@ -8,6 +8,6 @@ import retrofit2.http.POST;
 public interface LoginInterfaces {
 
     @FormUrlEncoded
-    @POST("Entregado.php")
-    Call<Usuario> getLogin(@Field("usuario") String usuario);
+    @POST("login.php")
+    Call<Usuario> getLogin(@Field("DOCUMENTO") String usuario);
 }
