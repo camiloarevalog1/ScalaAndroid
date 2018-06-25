@@ -8,13 +8,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.ViewHolderProductos> {
 
-    ArrayList<Productos>listaProductos;
+    List<Productos> listaProductos;
 
 
-    public AdaptadorProductos(ArrayList<Productos> listaProductos) {
+    public AdaptadorProductos(List<Productos> listaProductos) {
         this.listaProductos = listaProductos;
     }
 

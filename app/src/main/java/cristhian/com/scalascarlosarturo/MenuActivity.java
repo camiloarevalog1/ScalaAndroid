@@ -1,8 +1,9 @@
 package cristhian.com.scalascarlosarturo;
-
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,7 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MenuActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,FragmentDeposito.OnFragmentInteractionListener,
+        FragmentEntregado.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +82,14 @@ public class MenuActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        Fragment fragment =null;
+        boolean FragmentSeleccionado=false;
+
+
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            fragment= new FragmentEntregado();
+            FragmentSeleccionado=true;
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -89,11 +97,21 @@ public class MenuActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
+            fragment= new FragmentEntregado();
+            FragmentSeleccionado=true;
+        }
 
+        if(FragmentSeleccionado){
+            getSupportFragmentManager().beginTransaction().replace(R.id.idMenu,fragment).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
