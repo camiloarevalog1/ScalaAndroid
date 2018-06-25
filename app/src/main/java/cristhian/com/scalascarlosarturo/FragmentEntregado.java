@@ -22,9 +22,9 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
-
+ * <p>
  * to handle interaction events.
-
+ * <p>
  * create an instance of this fragment.
  */
 public class FragmentEntregado extends Fragment {
@@ -44,7 +44,7 @@ public class FragmentEntregado extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefs=this.getContext().getSharedPreferences("Preferences",Context.MODE_PRIVATE);
+        prefs = this.getContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
 
     }
 
@@ -54,32 +54,34 @@ public class FragmentEntregado extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_fragment_entregado, container, false);
 
+        entregadoInterfaces = Connection.getApiClient().create(EntregadoInterfaces.class);
         productos = new ArrayList<>();
         recyclerViewPersonajes = view.findViewById(R.id.recycler);
         recyclerViewPersonajes.setLayoutManager(new LinearLayoutManager(getContext()));
-        String documento=prefs.getString("documento","");
+        String documento = prefs.getString("documento", "");
         llenarProductos(documento);
         return view;
     }
 
-    private void llenarProductos(String documento){
+    private void llenarProductos(String documento) {
         Call<List<Productos>> userCall = entregadoInterfaces.getDocumento(documento);
-        List<Productos>lista=new ArrayList();
-        AdaptadorProductos adapter= new AdaptadorProductos(lista);
-        recyclerViewPersonajes.setAdapter(adapter);
 
-       userCall.enqueue(new Callback<List<Productos>>() {
-           @Override
-           public void onResponse(Call<List<Productos>> call, Response<List<Productos>> response) {
 
-           }
+        userCall.enqueue(new Callback<List<Productos>>() {
+            @Override
+            public void onResponse(Call<List<Productos>> call, Response<List<Productos>> response) {
+                List<Productos> productos = response.body();
+                AdaptadorProductos adapter = new AdaptadorProductos(productos);
+                recyclerViewPersonajes.setAdapter(adapter);
+            }
 
-           @Override
-           public void onFailure(Call<List<Productos>> call, Throwable t) {
+            @Override
+            public void onFailure(Call<List<Productos>> call, Throwable t) {
 
-           }
-       });
+            }
+        });
     }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
