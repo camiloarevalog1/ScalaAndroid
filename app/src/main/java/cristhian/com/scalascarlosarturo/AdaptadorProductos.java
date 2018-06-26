@@ -47,8 +47,8 @@ public class AdaptadorProductos extends RecyclerView.Adapter<AdaptadorProductos.
         public ViewHolderProductos(View itemView) {
             super(itemView);
                 etNombre=(TextView)itemView.findViewById(R.id.idNombre);
-            etComentario=(TextView)itemView.findViewById(R.id.idNombre);
-            etPagar=(TextView)itemView.findViewById(R.id.idNombre);
+            etComentario=(TextView)itemView.findViewById(R.id.idComentario);
+            etPagar=(TextView)itemView.findViewById(R.id.idTotalpagar);
 
         }
     }
