@@ -20,7 +20,8 @@ import android.view.MenuItem;
 
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentDeposito.OnFragmentInteractionListener,
-        FragmentEntregado.OnFragmentInteractionListener,FragmentProceso.OnFragmentInteractionListener {
+        FragmentEntregado.OnFragmentInteractionListener,FragmentProceso.OnFragmentInteractionListener,
+        fragment_remision.OnFragmentInteractionListener,FragmentSaldo.OnFragmentInteractionListener {
 
     private SharedPreferences prefs;
 
@@ -129,9 +130,10 @@ public class MenuActivity extends AppCompatActivity
             fragment=new FragmentDeposito();
             FragmentSeleccionado=true;
         } else if (id == R.id.nav_share) {
-
+            fragment=new fragment_remision();
+            FragmentSeleccionado=true;
         } else if (id == R.id.nav_send) {
-            fragment = new FragmentEntregado();
+            fragment = new FragmentSaldo();
             FragmentSeleccionado = true;
         }
 

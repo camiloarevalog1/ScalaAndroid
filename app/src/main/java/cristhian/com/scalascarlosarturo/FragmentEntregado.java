@@ -56,7 +56,7 @@ public class FragmentEntregado extends Fragment {
 
         entregadoInterfaces = Connection.getApiClient().create(EntregadoInterfaces.class);
         productos = new ArrayList<>();
-        recyclerViewPersonajes = view.findViewById(R.id.recyclerD);
+        recyclerViewPersonajes = view.findViewById(R.id.recycler);
         recyclerViewPersonajes.setLayoutManager(new LinearLayoutManager(getContext()));
         String documento = prefs.getString("documento", "");
         llenarProductos(documento);

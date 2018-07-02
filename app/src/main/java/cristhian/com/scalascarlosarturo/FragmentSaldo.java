@@ -22,12 +22,12 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link FragmentDeposito.OnFragmentInteractionListener} interface
+ * {@link FragmentSaldo.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link FragmentDeposito#newInstance} factory method to
+ * Use the {@link FragmentSaldo#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentDeposito extends Fragment {
+public class FragmentSaldo extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -36,14 +36,15 @@ public class FragmentDeposito extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
     RecyclerView recyclerViewPersonajes;
-    List<Productos> productos;
+    List<Saldo> productos;
     private SharedPreferences prefs;
-    DepositoInterfaces entregadoInterfaces;
+    SaldoInterfaces saldoInterfaces;
 
     private OnFragmentInteractionListener mListener;
 
-    public FragmentDeposito() {
+    public FragmentSaldo() {
         // Required empty public constructor
     }
 
@@ -53,11 +54,11 @@ public class FragmentDeposito extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentDeposito.
+     * @return A new instance of fragment FragmentSaldo.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentDeposito newInstance(String param1, String param2) {
-        FragmentDeposito fragment = new FragmentDeposito();
+    public static FragmentSaldo newInstance(String param1, String param2) {
+        FragmentSaldo fragment = new FragmentSaldo();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -68,6 +69,10 @@ public class FragmentDeposito extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
         prefs = this.getContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
     }
 
@@ -75,30 +80,32 @@ public class FragmentDeposito extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_fragment_deposito, container, false);
+        View view = inflater.inflate(R.layout.fragment_fragment_saldo, container, false);
 
-        entregadoInterfaces = Connection.getApiClient().create(DepositoInterfaces.class);
+        saldoInterfaces = Connection.getApiClient().create(SaldoInterfaces.class);
         productos = new ArrayList<>();
-        recyclerViewPersonajes = view.findViewById(R.id.recyclerD);
+        recyclerViewPersonajes = view.findViewById(R.id.recyclerSal);
         recyclerViewPersonajes.setLayoutManager(new LinearLayoutManager(getContext()));
         String documento = prefs.getString("documento", "");
         llenarProductos(documento);
         return view;
     }
+
     private void llenarProductos(String documento) {
-        Call<List<Productos>> userCall = entregadoInterfaces.getDocumento(documento);
+
+        Call<List<Saldo>> userCall = saldoInterfaces.getDocumento(documento);
 
 
-        userCall.enqueue(new Callback<List<Productos>>() {
+        userCall.enqueue(new Callback<List<Saldo>>() {
             @Override
-            public void onResponse(Call<List<Productos>> call, Response<List<Productos>> response) {
-                List<Productos> productos = response.body();
-                AdaptadorProductos adapter = new AdaptadorProductos(productos);
+            public void onResponse(Call<List<Saldo>> call, Response<List<Saldo>> response) {
+                List<Saldo> productos = response.body();
+                AdaptadorSaldo adapter = new AdaptadorSaldo(productos);
                 recyclerViewPersonajes.setAdapter(adapter);
             }
 
             @Override
-            public void onFailure(Call<List<Productos>> call, Throwable t) {
+            public void onFailure(Call<List<Saldo>> call, Throwable t) {
 
             }
         });
