@@ -1,6 +1,8 @@
 package cristhian.com.scalascarlosarturo;
 
-public class Remision {
+import java.io.Serializable;
+
+public class Remision implements Serializable{
     private boolean success;
     private int id;
     private String total_a_pagar;

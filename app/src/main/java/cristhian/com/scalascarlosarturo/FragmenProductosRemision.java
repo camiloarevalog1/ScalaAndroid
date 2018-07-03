@@ -1,7 +1,5 @@
 package cristhian.com.scalascarlosarturo;
 
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -9,11 +7,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +22,12 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link fragment_remision.OnFragmentInteractionListener} interface
+ * {@link FragmenProductosRemision.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link fragment_remision#newInstance} factory method to
+ * Use the {@link FragmenProductosRemision#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragment_remision extends Fragment {
+public class FragmenProductosRemision extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -42,16 +38,13 @@ public class fragment_remision extends Fragment {
     private String mParam2;
 
     RecyclerView recyclerViewPersonajes;
-    List<Remision> productos1;
+    List<ProductosRemision> productos;
     private SharedPreferences prefs;
-    RemisionInterfaces remisionInterfaces;
-
-    Activity activity;
-    IComunicaFragments iComunicaFragments;
+    ProductoRemisionInterfaces productoRemisionInterfaces;
 
     private OnFragmentInteractionListener mListener;
 
-    public fragment_remision() {
+    public FragmenProductosRemision() {
         // Required empty public constructor
     }
 
@@ -61,11 +54,11 @@ public class fragment_remision extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment fragment_remision.
+     * @return A new instance of fragment FragmenProductosRemision.
      */
     // TODO: Rename and change types and number of parameters
-    public static fragment_remision newInstance(String param1, String param2) {
-        fragment_remision fragment = new fragment_remision();
+    public static FragmenProductosRemision newInstance(String param1, String param2) {
+        FragmenProductosRemision fragment = new FragmenProductosRemision();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -87,56 +80,33 @@ public class fragment_remision extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_fragment_remision, container, false);
+        View view = inflater.inflate(R.layout.fragment_fragmen_productos_remision, container, false);
 
-        remisionInterfaces = Connection.getApiClient().create(RemisionInterfaces.class);
-        productos1 = new ArrayList<>();
-        recyclerViewPersonajes = view.findViewById(R.id.recyclerRe);
+        productoRemisionInterfaces = Connection.getApiClient().create(ProductoRemisionInterfaces.class);
+        productos = new ArrayList<>();
+        recyclerViewPersonajes = view.findViewById(R.id.recyclerRePro);
         recyclerViewPersonajes.setLayoutManager(new LinearLayoutManager(getContext()));
+        Bundle b=getArguments();
+        Remision p= (Remision) b.getSerializable("objeto");
         String documento = prefs.getString("documento", "");
-
-        llenarProductos(documento,view);
-
+        llenarProductos(p.getId()+"");
         return view;
     }
 
-    private void llenarProductos(String documento, final View view) {
-        Call<List<Remision>> userCall = remisionInterfaces.getDocumento(documento);
+    private void llenarProductos(String documento) {
+        Call<List<ProductosRemision>> userCall = productoRemisionInterfaces.getDocumento(documento);
 
 
-        userCall.enqueue(new Callback<List<Remision>>() {
+        userCall.enqueue(new Callback<List<ProductosRemision>>() {
             @Override
-            public void onResponse(Call<List<Remision>> call, Response<List<Remision>> response) {
-                List<Remision> productos = response.body();
-                final AdaptadorRemision adapter = new AdaptadorRemision(productos);
-                productos1=response.body();
-
-                Log.e("Prueba","Onclick"+productos.size());
-
+            public void onResponse(Call<List<ProductosRemision>> call, Response<List<ProductosRemision>> response) {
+                List<ProductosRemision> productos = response.body();
+                AdaptadorProductosRemision adapter = new AdaptadorProductosRemision(productos);
                 recyclerViewPersonajes.setAdapter(adapter);
-
-                recyclerViewPersonajes.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerViewPersonajes,
-                        new RecyclerTouchListener.ClickListener() {
-                            @Override
-                            public void onClick(View view, int position) {
-                                Log.e("hola","se pudo");
-                               Remision r=adapter.listaRemision.get(position);
-                                Log.e("hola","remision"+r);
-                                iComunicaFragments.enviarRemision(r);
-                            }
-
-                            @Override
-                            public void onLongClick(View view, int position) {
-
-                            }
-                        }));
-
-
-
             }
 
             @Override
-            public void onFailure(Call<List<Remision>> call, Throwable t) {
+            public void onFailure(Call<List<ProductosRemision>> call, Throwable t) {
 
             }
         });
@@ -152,19 +122,11 @@ public class fragment_remision extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
-
-
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
-        }
-
-        if(context instanceof  Activity){
-            this.activity= (Activity) context;
-            iComunicaFragments= (IComunicaFragments) this.activity;
         }
     }
 

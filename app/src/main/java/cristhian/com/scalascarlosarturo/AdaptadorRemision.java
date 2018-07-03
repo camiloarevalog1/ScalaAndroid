@@ -2,6 +2,7 @@ package cristhian.com.scalascarlosarturo;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class AdaptadorRemision extends RecyclerView.Adapter<AdaptadorRemision.ViewHolderProductos> {
+public class AdaptadorRemision extends RecyclerView.Adapter<AdaptadorRemision.ViewHolderProductos> implements View.OnClickListener{
 
     List<Remision> listaRemision;
+    private View.OnClickListener listener;
 
 
     public AdaptadorRemision(List<Remision> listaRemision) {
@@ -36,6 +38,23 @@ public class AdaptadorRemision extends RecyclerView.Adapter<AdaptadorRemision.Vi
     public int getItemCount() {
         return listaRemision.size();
     }
+
+    public void setOnClickListener(View.OnClickListener listener){
+        Log.e("OnClick","OnClick0.0");
+        Log.e("OnClick",listener.toString());
+        this.listener=listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        Log.e("OnClick","OnClick");
+        if(listener!=null){
+            listener.onClick(v);
+        }
+
+    }
+
+
 
     public class ViewHolderProductos extends RecyclerView.ViewHolder {
 

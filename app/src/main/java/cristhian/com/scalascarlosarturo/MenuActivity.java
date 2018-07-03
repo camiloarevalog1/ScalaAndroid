@@ -21,7 +21,8 @@ import android.view.MenuItem;
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentDeposito.OnFragmentInteractionListener,
         FragmentEntregado.OnFragmentInteractionListener,FragmentProceso.OnFragmentInteractionListener,
-        fragment_remision.OnFragmentInteractionListener,FragmentSaldo.OnFragmentInteractionListener {
+        fragment_remision.OnFragmentInteractionListener,FragmentSaldo.OnFragmentInteractionListener,IComunicaFragments,
+            FragmenProductosRemision.OnFragmentInteractionListener{
 
     private SharedPreferences prefs;
 
@@ -146,8 +147,21 @@ public class MenuActivity extends AppCompatActivity
         return true;
     }
 
+    FragmenProductosRemision fragment_productosRemision;
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    @Override
+    public void enviarRemision(Remision remision) {
+    fragment_productosRemision=new FragmenProductosRemision();
+    Bundle bundleEnvio=new Bundle();
+    bundleEnvio.putSerializable("objeto",remision);
+    fragment_productosRemision.setArguments(bundleEnvio);
+
+
+    getSupportFragmentManager().beginTransaction().replace(R.id.idMenu,fragment_productosRemision).addToBackStack(null).commit();
     }
 }
