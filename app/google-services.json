@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "9274782082",
+    "firebase_url": "https://scalascarlosarturo-d7f90.firebaseio.com",
+    "project_id": "scalascarlosarturo-d7f90",
+    "storage_bucket": "scalascarlosarturo-d7f90.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9274782082:android:76af0f979f02170e",
+        "android_client_info": {
+          "package_name": "cristhian.com.scalascarlosarturo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9274782082-orto2sh8ipnmb9kc394vhjs35vbcc9n7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAc9mahN9YYjM1Jx4JPCEQji1sWICpjvEs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

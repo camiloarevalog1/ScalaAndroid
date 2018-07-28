@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +19,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentDeposito.OnFragmentInteractionListener,
         FragmentEntregado.OnFragmentInteractionListener,FragmentProceso.OnFragmentInteractionListener,
@@ -25,6 +30,8 @@ public class MenuActivity extends AppCompatActivity
             FragmenProductosRemision.OnFragmentInteractionListener{
 
     private SharedPreferences prefs;
+    TokenInterfaces tokenInterfaces;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,7 @@ public class MenuActivity extends AppCompatActivity
         setContentView(R.layout.activity_menu);
 
         prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
+        tokenInterfaces=Connection.getApiClient().create(TokenInterfaces.class);
 
         existsUser(prefs);
 
@@ -90,6 +98,20 @@ public class MenuActivity extends AppCompatActivity
             case R.id.action_settings:
                 return true;
             case R.id.action_logOut:
+                String documento = prefs.getString("documento", "");
+                Call<String > stringCall = tokenInterfaces.InsertToken(documento,"0"+"");
+
+               stringCall.enqueue(new Callback<String>() {
+                   @Override
+                   public void onResponse(Call<String> call, Response<String> response) {
+                       response.body();
+                   }
+
+                   @Override
+                   public void onFailure(Call<String> call, Throwable t) {
+
+                   }
+               });
                 removeSharedPreferences();
                 logOut();
                 System.exit(0);

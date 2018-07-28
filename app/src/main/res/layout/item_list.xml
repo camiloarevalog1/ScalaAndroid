@@ -28,13 +28,31 @@
 
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:text="Nombre:  "
+                       android:text="Material:  "
                        android:textStyle="bold|italic"/>
+
+
                    <TextView
                        android:id="@+id/idNombre"
-                       android:layout_width="371dp"
+                       android:layout_width="160dp"
                        android:layout_height="wrap_content"
                        android:text="Nombre" />
+
+                   <TextView
+
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Cantidad:  "
+                       android:textStyle="bold|italic"/>
+                   <TextView
+                       android:id="@+id/idCantidad"
+                       android:layout_width="100dp"
+                       android:layout_height="wrap_content"
+                       android:text="Nombre" />
+
+
+
+
 
                </LinearLayout>
 
@@ -68,14 +86,52 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Precio:     "
+                    android:text="Total Pagar:     "
                     android:textStyle="bold|italic"/>
 
                 <TextView
                     android:id="@+id/idTotalpagar"
                     android:layout_width="371dp"
                     android:layout_height="wrap_content"
-                    android:text="Precio:" />
+                    android:text="precio:" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fecha:     "
+                    android:textStyle="bold|italic"/>
+
+                <TextView
+                    android:id="@+id/idFechaDejada"
+                    android:layout_width="371dp"
+                    android:layout_height="wrap_content"
+                    android:text="Fecha:" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Fecha de entrega:     "
+                    android:textStyle="bold|italic"/>
+
+                <TextView
+                    android:id="@+id/idFechaEntrega"
+                    android:layout_width="371dp"
+                    android:layout_height="wrap_content"
+                    android:text="precio:" />
 
             </LinearLayout>
 

@@ -10,10 +10,13 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.ContextThemeWrapper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
 
@@ -23,6 +26,7 @@ import retrofit2.Call;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private LoginInterfaces loginInterfaces;
+    private TokenInterfaces tokenInterfaces;
 
     private EditText editTextDocumento;
     private Button buttonIngresar;
@@ -38,6 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void bindUI() {
         loginInterfaces = Connection.getApiClient().create(LoginInterfaces.class);
+        tokenInterfaces=Connection.getApiClient().create(TokenInterfaces.class);
         editTextDocumento = findViewById(R.id.editTextDocumento);
         buttonIngresar = findViewById(R.id.buttonIngresar);
         buttonIngresar.setOnClickListener(this);
@@ -84,6 +89,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 if (user.isSuccess()) {
                     saveOnPreferences(user);
                     result = "Go";
+
+                    String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+                    Log.e("Hizo el servicio",documento+""+refreshedToken+"tokenInterfaces-"+tokenInterfaces);
+
+                    Call<String > stringCall = tokenInterfaces.InsertToken(documento,refreshedToken+"");
+                    String obtener = stringCall.execute().body();
+                    if (obtener != null){
+                         Log.i("aqui", obtener);
+                    }
+
                 } else {
                     result = "pass";
                 }
@@ -93,6 +108,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } catch (IOException e) {
             result = "Verificar si cuenta con Internet";
         }
+
+
 
         return result;
 
@@ -115,6 +132,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             dialog.setCancelable(false);
             dialog.show();
         }
+
+
 
         @Override
         protected String doInBackground(String... string) {
@@ -149,6 +168,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
+
                     break;
                 case "Verificar si cuenta con Internet":
                     builder2 = new AlertDialog.Builder(new ContextThemeWrapper(LoginActivity.this, R.style.AppTheme));
