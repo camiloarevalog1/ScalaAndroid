@@ -19,6 +19,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.IOException;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,7 +30,8 @@ public class MenuActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, FragmentDeposito.OnFragmentInteractionListener,
         FragmentEntregado.OnFragmentInteractionListener,FragmentProceso.OnFragmentInteractionListener,
         fragment_remision.OnFragmentInteractionListener,FragmentSaldo.OnFragmentInteractionListener,IComunicaFragments,
-            FragmenProductosRemision.OnFragmentInteractionListener{
+            FragmenProductosRemision.OnFragmentInteractionListener,
+        FragmentInicio.OnFragmentInteractionListener{
 
     private SharedPreferences prefs;
     TokenInterfaces tokenInterfaces;
@@ -60,6 +64,9 @@ public class MenuActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        Fragment fragment= new FragmentInicio();
+        getSupportFragmentManager().beginTransaction().add(R.id.idMenu,fragment).commit();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -98,22 +105,14 @@ public class MenuActivity extends AppCompatActivity
             case R.id.action_settings:
                 return true;
             case R.id.action_logOut:
+                Log.e("exito","0");
                 String documento = prefs.getString("documento", "");
-                Call<String > stringCall = tokenInterfaces.InsertToken(documento,"0"+"");
 
-               stringCall.enqueue(new Callback<String>() {
-                   @Override
-                   public void onResponse(Call<String> call, Response<String> response) {
-                       response.body();
-                   }
-
-                   @Override
-                   public void onFailure(Call<String> call, Throwable t) {
-
-                   }
-               });
+                eliminarToken(documento);
                 removeSharedPreferences();
-                logOut();
+
+                    logOut();
+
                 System.exit(0);
                 return true;
         }
@@ -121,12 +120,32 @@ public class MenuActivity extends AppCompatActivity
 
 
     }
+    public void eliminarToken(String documento){
+        Call<String> stringCall = tokenInterfaces.InsertToken(documento,"0");
+
+        Log.e("token",stringCall.toString());
+        stringCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+               if(response.body()!=null){
+                   Log.e("prueba","si");
+               }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e("Entro al failure","si");
+            }
+        });
+    }
 
     private void removeSharedPreferences() {
         prefs.edit().clear().apply();
     }
 
-    private void logOut() {
+    private void logOut()  {
+
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -146,6 +165,9 @@ public class MenuActivity extends AppCompatActivity
             fragment = new FragmentEntregado();
             FragmentSeleccionado = true;
 
+        }else if (id == R.id.nav_inicio) {
+            fragment= new FragmentInicio();
+            FragmentSeleccionado=true;
         } else if (id == R.id.nav_gallery) {
             fragment= new FragmentProceso();
             FragmentSeleccionado=true;

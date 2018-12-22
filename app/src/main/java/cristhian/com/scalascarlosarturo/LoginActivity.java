@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         prefs = getSharedPreferences("Preferences", Context.MODE_PRIVATE);
         bindUI();
     }
@@ -106,6 +107,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 result = "user";
             }
         } catch (IOException e) {
+            Log.e("internet",""+e.toString());
             result = "Verificar si cuenta con Internet";
         }
 
@@ -139,6 +141,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         protected String doInBackground(String... string) {
             String result = null;
             String documento = string[0];
+
+            Log.e("documento",""+documento);
             try {
                 result = goToMainActivity(documento);
                 Thread.sleep(1000);
@@ -153,9 +157,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
+Log.e("SSSSS",""+s);
 
             switch (s) {
 //                case "pass":
@@ -165,6 +171,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //                    EditTextUserError.setError("Usuario no existe.");
 //                    break;
                 case "Go":
+
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);

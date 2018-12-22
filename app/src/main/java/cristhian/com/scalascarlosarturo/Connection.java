@@ -10,6 +10,9 @@ public class Connection {
 
     private static final String BASE_URL = "https://scalas.webcindario.com/";
 
+    //private static final String BASE_URL = "http://127.0.0.1/sistemalaravel/";
+    //private static final String BASE_URL = "http://escalascarlosarturo.com/";
+
     private static Retrofit retrofit = null;
 
     public static Retrofit getAPI() {
