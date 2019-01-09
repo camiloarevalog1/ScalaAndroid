@@ -95,6 +95,7 @@ public class FragmentInicio extends Fragment {
 
     private void llenarProductos(String documento) {
         Call<List<UsuarioInicio>> userCall = usuarioInterfaces.getDocumento(documento);
+        Log.e("111",userCall.toString());
         Log.e("111",documento);
         userCall.toString();
 //        Log.e("111",usuarioInterfaces.toString());
@@ -103,7 +104,8 @@ public class FragmentInicio extends Fragment {
             @Override
             public void onResponse(Call<List<UsuarioInicio>> call, Response<List<UsuarioInicio>> response) {
                 Log.e("222","22222");
-                List<UsuarioInicio> productos = response.body();
+                List<UsuarioInicio> productos = response.body();//error
+                //Log.e("inicio",productos.toString());
                 Log.e("inicio",productos.toString());
                 AdaptadorUsuario adapter = new AdaptadorUsuario(productos);
                 Log.e("222",productos.toString());

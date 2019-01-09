@@ -2,6 +2,7 @@ package cristhian.com.scalascarlosarturo;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ public class AdaptadorUsuario extends RecyclerView.Adapter<AdaptadorUsuario.View
         holder.etDireccion.setText(listaUsuario.get(position).getDirecccion());
         holder.etTelefono.setText(listaUsuario.get(position).getTelefono());
         holder.etDocumento.setText(listaUsuario.get(position).getDocumento());
+        Log.e("",listaUsuario.get(position).getTelefono()+"Telefono");
+        Log.e("",listaUsuario.get(position).getDocumento()+"Documento");
 
 
     }
@@ -50,8 +53,10 @@ public class AdaptadorUsuario extends RecyclerView.Adapter<AdaptadorUsuario.View
             super(itemView);
                 etNombre=(TextView)itemView.findViewById(R.id.idNombre);
             etDireccion=(TextView)itemView.findViewById(R.id.idComentario);
-            etDocumento=(TextView)itemView.findViewById(R.id.idTotalpagar);
-            etTelefono=(TextView)itemView.findViewById(R.id.idEstado);
+            etDocumento=(TextView)itemView.findViewById(R.id.idEstado);
+            etTelefono=(TextView)itemView.findViewById(R.id.idTotalpagar);
+
+
 
 
         }
